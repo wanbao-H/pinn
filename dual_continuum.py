@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# @Author: Your name
+# @Date:   2024-01-13 07:22:49
+# @Last Modified by:   Your name
+# @Last Modified time: 2024-01-13 07:41:19
 import torch
 from collections import OrderedDict
 
@@ -341,12 +346,12 @@ def load_ref_solution(field, t):
 
 #--- the number of train data ---
     
-N_b_l = 10000
-N_b_r = 10000
-N_b_b = 10000
-N_b_t = 10000
+N_b_l = 50000
+N_b_r = 50000
+N_b_b = 50000
+N_b_t = 50000
 N_c = 100
-N_f = 70000
+N_f = 150000
 
 #--- Generate training data ---
 
@@ -390,8 +395,8 @@ model = PhysicsInformedNN(X_t0_train, X_x0_train, X_x1_train, X_y0_train, X_y1_t
 
 # model.train_Adam(1000)
 # model.train()
-# model.train_epoch()
-model = torch.load('./model/test_model.pth')
+model.train_epoch()
+# model = torch.load('./model/test_model.pth')
 
 torch.save(model, './model/test_model.pth') 
 
