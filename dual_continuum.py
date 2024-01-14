@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-13 07:22:49
 # @Last Modified by:   Your name
-# @Last Modified time: 2024-01-13 07:41:19
+# @Last Modified time: 2024-01-14 01:58:12
 import torch
 from collections import OrderedDict
 
@@ -114,15 +114,16 @@ class PhysicsInformedNN():
         )
 
         self.iter = 0
+        self.time_step = 14
         
     def update_train_data(self, t):
         
         # X_t0_train = self.X_t0_train[(self.X_t0_train[:, 2] >= t-10) & (self.X_t0_train[:, 2] < t) ]
-        X_x0_train = self.X_x0_train[(self.X_x0_train[:, 2] >= t-14) & (self.X_x0_train[:, 2] < t) ]
-        X_x1_train = self.X_x1_train[(self.X_x1_train[:, 2] >= t-14) & (self.X_x1_train[:, 2] < t) ]
-        X_y0_train = self.X_y0_train[(self.X_y0_train[:, 2] >= t-14) & (self.X_y0_train[:, 2] < t) ]
-        X_y1_train = self.X_y1_train[(self.X_y1_train[:, 2] >= t-14) & (self.X_y1_train[:, 2] < t) ]
-        X_f_train = self.X_f_train[(self.X_f_train[:, 2] >= t-1) & (self.X_f_train[:, 2] < t) ]
+        X_x0_train = self.X_x0_train[(self.X_x0_train[:, 2] >= t-self.time_step) & (self.X_x0_train[:, 2] < t) ]
+        X_x1_train = self.X_x1_train[(self.X_x1_train[:, 2] >= t-self.time_step) & (self.X_x1_train[:, 2] < t) ]
+        X_y0_train = self.X_y0_train[(self.X_y0_train[:, 2] >= t-self.time_step) & (self.X_y0_train[:, 2] < t) ]
+        X_y1_train = self.X_y1_train[(self.X_y1_train[:, 2] >= t-self.time_step) & (self.X_y1_train[:, 2] < t) ]
+        X_f_train = self.X_f_train[(self.X_f_train[:, 2] >= t-self.time_step) & (self.X_f_train[:, 2] < t) ]
         
         self.x_t0, self.y_t0, self.t_t0, self.k1_t0, self.k2_t0, self.r_t0 = self.unzip(X_t0_train)
         self.x_x0, self.y_x0, self.t_x0, self.k1_x0, self.k2_x0, self.r_x0 = self.unzip(X_x0_train)
@@ -301,10 +302,10 @@ class PhysicsInformedNN():
             
 
     def train_epoch(self):
-        num_epoch = 3
+        num_epoch = 2
         self.dnn.train()
         for epoch in range(num_epoch):
-            for t in np.linspace(14, 7000, 500, dtype=int):
+            for t in np.linspace(self.time_step, 7000, 7000/self.time_step, dtype=int):
                 self.update_train_data(t)
                 self.train_Adam(100)
                 self.train()
