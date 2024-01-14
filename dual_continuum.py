@@ -348,12 +348,12 @@ def load_ref_solution(field, t):
 
 #--- the number of train data ---
     
-N_b_l = 10000
-N_b_r = 10000
-N_b_b = 10000
-N_b_t = 10000
-N_c = 100
-N_f = 70000
+N_b_l = 100000
+N_b_r = 100000
+N_b_b = 100000
+N_b_t = 100000
+N_c = 1000
+N_f = 300000
 
 #--- Generate training data ---
 
