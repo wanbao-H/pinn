@@ -2,7 +2,7 @@
 # @Author: Your name
 # @Date:   2024-01-13 07:22:49
 # @Last Modified by:   Your name
-# @Last Modified time: 2024-01-14 02:09:59
+# @Last Modified time: 2024-01-15 01:15:51
 import torch
 from collections import OrderedDict
 
@@ -306,6 +306,7 @@ class PhysicsInformedNN():
         num_epoch = 2
         self.dnn.train()
         for epoch in range(num_epoch):
+            self.time_step = self.time_step / 2 ** (-epoch)
             for t in np.linspace(self.time_step, 7000, int(7000/self.time_step), dtype=int):
                 self.update_train_data(t)
                 self.train_Adam(100)
@@ -348,12 +349,12 @@ def load_ref_solution(field, t):
 
 #--- the number of train data ---
     
-N_b_l = 100000
-N_b_r = 100000
-N_b_b = 100000
-N_b_t = 100000
-N_c = 1000
-N_f = 300000
+N_b_l = 10000
+N_b_r = 10000
+N_b_b = 10000
+N_b_t = 10000
+N_c = 100
+N_f = 70000
 
 #--- Generate training data ---
 
